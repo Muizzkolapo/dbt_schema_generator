@@ -92,6 +92,7 @@ def save_schema(schema: str, output_file: str) -> None:
     with open(output_file, 'w') as f:
         f.write(schema)
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(description='Generate schema.yml file for specified dbt models.')
     parser.add_argument('-m', '--models', type=str, required=False,
@@ -126,6 +127,7 @@ def main() -> None:
                     schema = create_schema(model)
                     model_directory = os.path.dirname(model[next(iter(model))]['original_file_path'])
                     output_file = os.path.join(project_path, model_directory, f"{model_name}.yml")
+                    print(f"Generating schema for model: {model_name}")
                     save_schema(schema, output_file)
             else:
                 for model in models.values():
@@ -133,6 +135,7 @@ def main() -> None:
                     schema = create_schema(single_model)
                     model_directory = os.path.dirname(model['original_file_path'])
                     output_file = os.path.join(project_path, model_directory, f"{model['name']}.yml")
+                    print(f"Generating schema for model: {model['name']}")
                     save_schema(schema, output_file)
         else:
             print("manifest.json file not found.")
