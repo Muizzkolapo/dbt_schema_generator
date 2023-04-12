@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='dbt_schema_generator',
-    version='0.1.1a1',  
+    version='0.1.1a2'',  
     author='Your Name',
     author_email='lateefmuizz@gmail.com',
     description='A command-line tool to generate schema.yml files for specified dbt models',
