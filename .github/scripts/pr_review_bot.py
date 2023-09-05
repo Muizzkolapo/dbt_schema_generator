@@ -33,13 +33,6 @@ def get_pr_files(pr_id):
         return []
 
 
-
-
-
-def extract_changed_lines(patch_text):
-    # Extract lines that start with + (indicating additions or modifications)
-    changed_lines = [line[1:] for line in patch_text.split('\n') if line.startswith('+ ') and not line.startswith('+++ ')]
-    return '\n'.join(changed_lines)
 '''
 def review_code(pr_id):
     files = get_pr_files(pr_id)
@@ -62,6 +55,13 @@ def review_code(pr_id):
         review = f"Review for file `{file['filename']}`:\n\n" + response.choices[0].text.strip()
         post_comment(pr_id, review)
 '''
+def extract_changed_lines(patch_text):
+    # Separate lines that were added and lines that were deleted
+    lines_added = [line[1:] for line in patch_text.split('\n') if line.startswith('+ ') and not line.startswith('+++ ')]
+    lines_deleted = [line[1:] for line in patch_text.split('\n') if line.startswith('- ') and not line.startswith('--- ')]
+    
+    return '\n'.join(lines_added), '\n'.join(lines_deleted)
+
 def review_code(pr_id):
     files = get_pr_files(pr_id)
     
@@ -74,16 +74,21 @@ def review_code(pr_id):
         changes = file['changes']  # The number of changes made in the file
         additions = file['additions']  # The number of lines added
         deletions = file['deletions']  # The number of lines deleted
+        
+        patch_text = file.get('patch', 'No changes available')
+        
+        # Extract lines added and lines deleted from the patch text
+        lines_added, lines_deleted = extract_changed_lines(patch_text)
 
         comment_body += f"File: {filename}\n"
         comment_body += f"Status: {status}\n"
         comment_body += f"Total Changes: {changes}\n"
         comment_body += f"Lines Added: {additions}\n"
-        comment_body += f"Lines Removed: {deletions}\n\n"
+        comment_body += f"Lines Removed: {deletions}\n"
+        comment_body += f"Code Added:\n```\n{lines_added}\n```\n"
+        comment_body += f"Code Removed:\n```\n{lines_deleted}\n```\n\n"
 
     post_comment(pr_id, comment_body)
-
-
 
 if __name__ == "__main__":
     with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
