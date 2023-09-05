@@ -89,7 +89,7 @@ def create_schema(models: Dict) -> str:
     return schema
 
 def save_schema(schema: str, output_file: str) -> None:
-    """Saves the schema YAML content to the output file."""
+    """Saves the schema YAML content to the output fil."""
     with open(output_file, 'w') as f:
         f.write(schema)
 
