@@ -1,0 +1,20 @@
+
+name: PR Review Bot
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Review using GPT-3
+        run: python .github/scripts/pr_review_bot.py
+        env:
+          GPT3_API_KEY: ${{ secrets.GPT3_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
