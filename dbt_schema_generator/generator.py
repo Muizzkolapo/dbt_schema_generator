@@ -4,14 +4,14 @@ import os
 import subprocess
 from pathlib import Path
 from typing import Dict, Set, List, Tuple
-
+import logging
 
 def get_dbt_project_status() -> Tuple[str, str]:
     """
     This function uses the dbt debug command and returns the status of the dbt project and its location.
     
-    :return: A tuple with the first element being either 'passed' the current directory has dbt_project.yml, 
-            'failed' or 'unknown', and the second element being the path to the dbt project.
+    :return: A tuple  the first element being either 'passed' the current directory has dbt_project.yml, 
+            'failed' or 'unknown', and  second element bath to the dbt project.
     """
     try:
         result = subprocess.run(['dbt', 'debug'], capture_output=True, text=True)
@@ -49,7 +49,7 @@ def load_manifest(file_path: str) -> Dict:
     return manifest_data
 
 def get_models(manifest_data: Dict, model_names: Set[str]) -> Dict:
-    """Extracts the specified models from the manifest data."""
+    """Extracts the specified models  the  data.."""
     models = {}
     for node_key, node_value in manifest_data['nodes'].items():
         if node_value['resource_type'] == 'model' and node_value['name'] in model_names:
@@ -57,7 +57,7 @@ def get_models(manifest_data: Dict, model_names: Set[str]) -> Dict:
     return models
 
 def get_path_models(manifest_data: Dict, path_name: str) -> Dict:
-    """Extracts the specified models from the manifest data."""
+    """Extracts the specified models from the """
     models = {}
     for node_key, node_value in manifest_data['nodes'].items():
         original_file_path = os.path.relpath(node_value['original_file_path'])
@@ -67,7 +67,7 @@ def get_path_models(manifest_data: Dict, path_name: str) -> Dict:
 
 
 def create_schema(models: Dict) -> str:
-    """Creates the schema YAML content from the models."""
+    """Creates the schema YAML   the ."""
     schema = "version: 2\n\nmodels:\n\n"
     for model in models.values():
         model_dict = {
@@ -88,12 +88,14 @@ def create_schema(models: Dict) -> str:
     return schema
 
 def save_schema(schema: str, output_file: str) -> None:
-    """Saves the schema YAML content to the output file."""
+    """Saves the schema YAML content to the output file"""
     with open(output_file, 'w') as f:
         f.write(schema)
 
 
 def main() -> None:
+    logging.basicConfig(filename='dbt_schema_generator.log', level=logging.INFO,
+                            format='%(asctime)s:%(levelname)s:%(message)s')
     parser = argparse.ArgumentParser(description='Generate schema.yml file for specified dbt models.')
     parser.add_argument('-m', '--models', type=str, required=False,
                         help='Comma-separated list of model names to include in the schema.yml file.')
