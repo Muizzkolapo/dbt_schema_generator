@@ -49,7 +49,7 @@ def load_manifest(file_path: str) -> Dict:
     return manifest_data
 
 def get_models(manifest_data: Dict, model_names: Set[str]) -> Dict:
-    """Extracts the specified models from the manifest data."""
+    """Extracts the specified models from the manifest data.."""
     models = {}
     for node_key, node_value in manifest_data['nodes'].items():
         if node_value['resource_type'] == 'model' and node_value['name'] in model_names:
