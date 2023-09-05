@@ -57,7 +57,7 @@ def get_models(manifest_data: Dict, model_names: Set[str]) -> Dict:
     return models
 
 def get_path_models(manifest_data: Dict, path_name: str) -> Dict:
-    """Extracts the specified models from the manifest data."""
+    """Extracts the specified models from the manifest data.."""
     models = {}
     for node_key, node_value in manifest_data['nodes'].items():
         original_file_path = os.path.relpath(node_value['original_file_path'])
