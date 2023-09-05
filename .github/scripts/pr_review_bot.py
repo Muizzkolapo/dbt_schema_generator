@@ -6,11 +6,24 @@ import requests
 # Initialize OpenAI API
 openai.api_key = os.environ.get("GPT3_API_KEY")
 
-def post_comment(pr_id, comment):
+'''def post_comment(pr_id, comment):
     url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/issues/{pr_id}/comments"
     headers = {
         "Authorization": f"token {os.environ['GITHUB_TOKEN']}",
         "Accept": "application/vnd.github.v3+json"
+    }
+    data = {
+        "body": comment
+    }
+    response = requests.post(url, headers=headers, json=data)
+    if response.status_code != 201:
+        print(f"Failed to post comment: {response.text}")'''
+def post_comment(pr_id, comment):
+    url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/issues/{pr_id}/comments"
+    headers = {
+        "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "Your GitHub App Name"
     }
     data = {
         "body": comment
