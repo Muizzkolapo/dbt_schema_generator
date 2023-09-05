@@ -40,7 +40,7 @@ def extract_changed_lines(patch_text):
     # Extract lines that start with + (indicating additions or modifications)
     changed_lines = [line[1:] for line in patch_text.split('\n') if line.startswith('+ ') and not line.startswith('+++ ')]
     return '\n'.join(changed_lines)
-
+'''
 def review_code(pr_id):
     files = get_pr_files(pr_id)
     for file in files:
@@ -61,6 +61,22 @@ def review_code(pr_id):
         
         review = f"Review for file `{file['filename']}`:\n\n" + response.choices[0].text.strip()
         post_comment(pr_id, review)
+'''
+
+def review_code(pr_id):
+    files = get_pr_files(pr_id)
+    for file in files:
+        filename = file['filename']
+        status = file['status']  # The status of the file ('added', 'removed', or 'modified')
+        changes = file['changes']  # The number of changes made in the file
+        additions = file['additions']  # The number of lines added
+        deletions = file['deletions']  # The number of lines deleted
+
+        print(f"File: {filename}")
+        print(f"Status: {status}")
+        print(f"Total Changes: {changes}")
+        print(f"Lines Added: {additions}")
+        print(f"Lines Removed: {deletions}\n")
 
 
 
