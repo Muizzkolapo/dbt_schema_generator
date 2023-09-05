@@ -67,7 +67,7 @@ def get_path_models(manifest_data: Dict, path_name: str) -> Dict:
 
 
 def create_schema(models: Dict) -> str:
-    """Creates the schema YAML content  the ."""
+    """Creates the schema YAML   the ."""
     schema = "version: 2\n\nmodels:\n\n"
     for model in models.values():
         model_dict = {
