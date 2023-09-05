@@ -4,6 +4,7 @@ import os
 import subprocess
 from pathlib import Path
 from typing import Dict, Set, List, Tuple
+import logging
 
 
 def get_dbt_project_status() -> Tuple[str, str]:
@@ -94,6 +95,8 @@ def save_schema(schema: str, output_file: str) -> None:
 
 
 def main() -> None:
+    logging.basicConfig(filename='dbt_schema_generator.log', level=logging.INFO,
+                        format='%(asctime)s:%(levelname)s:%(message)s')
     parser = argparse.ArgumentParser(description='Generate schema.yml file for specified dbt models.')
     parser.add_argument('-m', '--models', type=str, required=False,
                         help='Comma-separated list of model names to include in the schema.yml file.')
@@ -108,6 +111,8 @@ def main() -> None:
         specified_path += os.path.sep
 
     status, project_path = get_dbt_project_status()
+    logging.info(f'DBT project status: {status}, Project path: {project_path}')
+    
     if status == 'passed' and project_path:
         manifest_file = find_manifest_file(project_path)
         if manifest_file:
