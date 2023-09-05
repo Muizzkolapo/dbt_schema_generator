@@ -32,10 +32,26 @@ def get_pr_files(pr_id):
         print(f"Failed to get PR files: {response.text}")
         return []
 
+
+
+
+
+def extract_changed_lines(patch_text):
+    # Extract lines that start with + (indicating additions or modifications)
+    changed_lines = [line[1:] for line in patch_text.split('\n') if line.startswith('+ ') and not line.startswith('+++ ')]
+    return '\n'.join(changed_lines)
+
 def review_code(pr_id):
     files = get_pr_files(pr_id)
     for file in files:
-        code_snippet = file.get('patch', 'No changes available')
+        patch_text = file.get('patch', 'No changes available')
+        
+        # Extract changed lines from the patch text
+        code_snippet = extract_changed_lines(patch_text)
+
+        # If there are no changed lines (might be a file deletion or renaming), skip to the next file
+        if not code_snippet.strip():
+            continue
 
         response = openai.Completion.create(
           engine="davinci",
@@ -45,6 +61,11 @@ def review_code(pr_id):
         
         review = f"Review for file `{file['filename']}`:\n\n" + response.choices[0].text.strip()
         post_comment(pr_id, review)
+
+
+
+
+
 
 if __name__ == "__main__":
     with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
