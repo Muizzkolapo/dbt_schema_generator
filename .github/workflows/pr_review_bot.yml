@@ -27,7 +27,7 @@ jobs:
         env:
           GPT3_API_KEY: ${{ secrets.GPT3_API_KEY }}
           PRBOT_TOKEN: ${{ secrets.PRBOT_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PRBOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
