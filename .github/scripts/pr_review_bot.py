@@ -21,7 +21,7 @@ def post_comment(pr_id, comment):
         print(f"Failed to post comment: {response.text}")
 
 def review_code(pr_id):
-    # TODO: Extract changes from the PR
+    # TODO:  changes from the PR
     code_snippet = "PLACEHOLDER_FOR_CODE_FROM_PR"
 
     response = openai.Completion.create(
