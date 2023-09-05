@@ -26,4 +26,9 @@ jobs:
         run: python .github/scripts/pr_review_bot.py
         env:
           GPT3_API_KEY: ${{ secrets.GPT3_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+
+
+  
+          
