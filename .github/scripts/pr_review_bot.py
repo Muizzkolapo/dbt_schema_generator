@@ -21,9 +21,9 @@ openai.api_key = os.environ.get("GPT3_API_KEY")
 def post_comment(pr_id, comment):
     url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/issues/{pr_id}/comments"
     headers = {
-        "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+        "Authorization": f"Bearer {os.environ['PRBOT_TOKEN']}",
         "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "Your GitHub App Name"
+        "User-Agent": "kpreviewer"
     }
     data = {
         "body": comment
