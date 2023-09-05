@@ -35,7 +35,7 @@ def post_comment(pr_id, comment):
 def get_pr_files(pr_id):
     url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/pulls/{pr_id}/files"
     headers = {
-        "Authorization": f"token {os.environ['GITHUB_TOKEN']}",
+        "Authorization": f"token {os.environ['PRBOT_TOKEN']}",
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.get(url, headers=headers)
