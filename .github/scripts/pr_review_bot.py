@@ -62,9 +62,12 @@ def review_code(pr_id):
         review = f"Review for file `{file['filename']}`:\n\n" + response.choices[0].text.strip()
         post_comment(pr_id, review)
 '''
-
 def review_code(pr_id):
     files = get_pr_files(pr_id)
+    
+    num_files_changed = len(files)
+    comment_body = f"The PR has {num_files_changed} files changed:\n\n"
+    
     for file in files:
         filename = file['filename']
         status = file['status']  # The status of the file ('added', 'removed', or 'modified')
@@ -72,14 +75,13 @@ def review_code(pr_id):
         additions = file['additions']  # The number of lines added
         deletions = file['deletions']  # The number of lines deleted
 
-        print(f"File: {filename}")
-        print(f"Status: {status}")
-        print(f"Total Changes: {changes}")
-        print(f"Lines Added: {additions}")
-        print(f"Lines Removed: {deletions}\n")
+        comment_body += f"File: {filename}\n"
+        comment_body += f"Status: {status}\n"
+        comment_body += f"Total Changes: {changes}\n"
+        comment_body += f"Lines Added: {additions}\n"
+        comment_body += f"Lines Removed: {deletions}\n\n"
 
-
-
+    post_comment(pr_id, comment_body)
 
 
 
