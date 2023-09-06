@@ -7,6 +7,8 @@ import requests
 # Set your OpenAI API key
 openai.api_key = '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'
 
+
+
 def post_comment(pr_id: int, comment: str) -> None:
     """Post a comment on a GitHub PR."""
     url = f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/issues/{pr_id}/comments"
@@ -64,12 +66,12 @@ def analyze_code_change(pr_id: int, comment: str, language: str = "Python") -> s
         return description
     except Exception as e:
         print(f"Error: {e}")
-        pass
+        return "Error in analyzing the code"
 
 if __name__ == "__main__":
     with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
         event_data = json.load(f)
         pr_id = event_data["pull_request"]["number"]
-        comment = ""  # Extract the comment from event_data as necessary
-        pr_id,comment = analyze_code_change(pr_id, comment)
-        post_comment(pr_id,comment)
+        pr_id, comment_body = review_code(pr_id)
+        analysis_result = analyze_code_change(pr_id, comment_body)
+        post_comment(pr_id, analysis_result)
