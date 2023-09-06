@@ -5,7 +5,7 @@ import requests
 
 
 # Set your OpenAI API key
-openai.api_key = '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'
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 
 
