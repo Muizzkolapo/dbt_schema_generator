@@ -8,7 +8,6 @@ from typing import Dict, Set, List, Tuple
 
 def get_dbt_project_status() -> Tuple[str, str]:
     """
-    This function uses the dbt debug command and returns the status of the dbt project and its location.
     
     """
     try:
