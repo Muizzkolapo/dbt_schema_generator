@@ -55,6 +55,7 @@ def review_code(pr_id: int) -> tuple:
         patch_text = file.get('patch', 'No changes available')
         lines_added, lines_deleted = extract_changed_lines(patch_text)
         comment_body += f"File: {filename}\nStatus: {status}\nTotal Changes: {changes}\nLines Added: {additions}\nLines Removed: {deletions}\nCode Added:\n```\n{lines_added}\n```\nCode Removed:\n```\n{lines_deleted}\n```\n\n"
+    post_comment(pr_id, comment_body)
     return pr_id, comment_body
 
 def analyze_code_change(pr_id: int, comment: str, language: str = "Python") -> str:
