@@ -25,7 +25,7 @@ jobs:
       - name: Review using GPT-3
         run: python .github/scripts/pr_review_bot.py
         env:
-          GPT3_API_KEY: ${{ secrets.GPT3_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           PRBOT_TOKEN: ${{ secrets.PRBOT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
