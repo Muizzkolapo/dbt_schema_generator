@@ -11,7 +11,7 @@ def get_dbt_project_status() -> Tuple[str, str]:
     This function uses the dbt debug command and returns the status of the dbt project and its location.
     
     :return: A tuple with the first element being either 'passed' the current directory has dbt_project.yml, 
-            'failed' or 'unknown', and the second element being the path to the dbt project.
+            
     """
     try:
         result = subprocess.run(['dbt', 'debug'], capture_output=True, text=True)
