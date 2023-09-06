@@ -14,7 +14,6 @@ def get_dbt_project_status() -> Tuple[str, str]:
             
     """
     try:
-        result = subprocess.run(['dbt', 'debug'], capture_output=True, text=True)
         output = result.stdout
         if 'ERROR not found' in output:
             print("fatal: \n  Not a dbt project (or any of the parent directories). Missing dbt_project.yml file. \n   Please go to the right directory and retry.")
